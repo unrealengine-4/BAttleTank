@@ -9,3 +9,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 05 Create Tank, assing Camrea 
 * 06 Setting UI , Main Menu Leval
 * 07 Create c++ classes for Tank, TankPlayerController, TankAIController
+* 08 AimAt method

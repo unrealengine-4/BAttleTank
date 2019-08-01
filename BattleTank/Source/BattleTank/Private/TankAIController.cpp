@@ -6,19 +6,23 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("AI controller connected"));
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
+	auto PlayerTank = GetPlayerTank();
+	if (!PlayerTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AiControoled Tak not connected "));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AI Controlled tank: %s"),*(ControlledTank->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("AI Tank Aiming At : %s"),*(PlayerTank->GetName()));
 	}
 }
 
-ATank* ATankAIController::GetControlledTank()
+ATank* ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
+}
+
+ATank* ATankAIController::GetPlayerTank() const
+{
+	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }

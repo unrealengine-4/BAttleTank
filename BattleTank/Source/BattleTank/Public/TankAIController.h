@@ -23,5 +23,7 @@ public:
 
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
+
+
 	
 };

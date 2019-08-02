@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
 #include "TankPlayerController.generated.h"
 
 /**
@@ -23,8 +24,18 @@ public:
 
 	ATank* GetControlledTank();
 
-	//helps to move barrel towards crossair
+	///helps to move barrel towards crossair
 	void AimTowardsCrosshair();
+	///Get the world location through crosshair
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
-	
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5;
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333;
+
+	UPROPERTY(EditAnywhere)
+	float TraceRange = 100000;
+
 };

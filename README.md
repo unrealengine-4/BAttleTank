@@ -11,3 +11,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 07 Create c++ classes for Tank, TankPlayerController, TankAIController
 * 08 AimAt method
 * 09 Getting HitLocation From Viewport
+* 10 Moving Barrel

@@ -2,6 +2,7 @@
 
 #include "TankAIController.h"
 #include "Tank.h"
+#include "TankPlayerController.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -16,12 +17,19 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("AI Tank Aiming At : %s"),*(PlayerTank->GetName()));
 	}
 }
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+		if (!GetControlledTank()) { return; }
+		auto HitLocation = GetPlayerTank()->GetActorLocation();
+	GetControlledTank()->AimAt(HitLocation);
+}
 
 ATank* ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
-
+	
 ATank* ATankAIController::GetPlayerTank() const
 {
 	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());

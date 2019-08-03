@@ -12,3 +12,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 08 AimAt method
 * 09 Getting HitLocation From Viewport
 * 10 Moving Barrel
+* 11 Moving Turret

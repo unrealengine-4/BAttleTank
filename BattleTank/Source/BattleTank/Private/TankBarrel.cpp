@@ -11,7 +11,4 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 	auto RawClamp = FMath::Clamp<float>(RawNewElevation, MinElevationInDegree, MaxElevaioInDegree);
 	SetRelativeRotation(FRotator(RawClamp, 0, 0));
-
-	auto Time = GetWorld()->DeltaTimeSeconds;
-	UE_LOG(LogTemp, Warning, TEXT(" Aim As Rotator %f"), Time);
 }

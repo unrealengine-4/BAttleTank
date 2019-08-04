@@ -9,6 +9,6 @@ void UTankTurret::Rotate(float Rotation)
 	auto RotationChange = ClampRotarion * MaxDegreePerSeconds * GetWorld()->DeltaTimeSeconds;
 	auto NewRotation = RelativeRotation.Yaw + RotationChange;
 
-	SetRelativeRotation(FRotator(0, NewRotation, 0));
+	SetRelativeRotation(FRotator(0, NewRotation, 0)); //TODO Tank turret NOT ROTATE 360*
 	//Given the maximum rotation speed each frsme
 }

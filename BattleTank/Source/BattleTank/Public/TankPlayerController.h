@@ -36,6 +36,6 @@ public:
 	float CrossHairYLocation = 0.33333;
 
 	UPROPERTY(EditAnywhere)
-	float TraceRange = 100000;
+	float TraceRange = 1000000;
 
 };

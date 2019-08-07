@@ -4,6 +4,7 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -26,6 +27,10 @@ void ATank::SetTurretRefrance(UTankTurret* TurretToSet)
 	TankAimingComponent->SetTurretRefrance(TurretToSet);
 }
 
+//void ATank::SetTankRefrance(ATank Tank)
+//{
+//	
+//}
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {

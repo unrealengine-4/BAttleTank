@@ -25,5 +25,9 @@ public:
 
 private:
 	ATank* GetTank;
+
+	//How far ai tank can com to player tank
+	UPROPERTY(EditAnywhere, Category = setup)
+		float AcceptanceRedius = 3000;
 	
 };

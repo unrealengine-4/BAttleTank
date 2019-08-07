@@ -15,3 +15,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 11 Moving Turret
 * 12 Firing 
 * 13 Added Quit Button
+* 14 Moving Player TANK and, AI TANK

@@ -14,6 +14,7 @@
 
 
 class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -24,6 +25,9 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComonent(UTankAimingComponent* TankAimingCompRef);
 
 public:
 
@@ -45,5 +49,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float TraceRange = 1000000;
+
+private:
+	UTankAimingComponent* TankAimingcomponent = nullptr;
 
 };

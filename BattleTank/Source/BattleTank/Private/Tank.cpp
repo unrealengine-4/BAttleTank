@@ -18,12 +18,7 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-void ATank::SetAimingComponentRef(UTankAimingComponent* AimingComonentToSet)
-{
-	TankAimingComponent = AimingComonentToSet;
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called to bind functionality to input
@@ -31,30 +26,23 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
+} 
 
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!TankAimingComponent) {
-		UE_LOG(LogTemp, Warning, TEXT("Tank Aiming Component refrnce not fount in tank "));
-		return; 
-	}
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-}
+
 
 
 void ATank::Fire()
 {
-	if (!TankAimingComponent) { return; }
+	if (ensure(!Barrel)) { return; }
 	bool IsReloded = (FPlatformTime::Seconds()) - LastFireTime > ReloadTimeSeconds;
 
-	if (TankAimingComponent->Barrel && IsReloded)
+	if (Barrel && IsReloded)
 	{
 		//spawn a projectile in the socate location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
-		TankAimingComponent->Barrel->GetSocketLocation(FName("Projectile")),
-		TankAimingComponent->Barrel->GetSocketRotation(FName("Projectile"))
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds(); 

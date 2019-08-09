@@ -12,6 +12,7 @@
  */
 
 class ATankPlayerController;
+class UTankAimingComponent;
 class ATank;
 
 UCLASS()
@@ -30,4 +31,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "setup")
 		float AcceptanceRedius = 3000;
 	
+public:
+	UTankAimingComponent* TankAimingComponet = nullptr;
 };

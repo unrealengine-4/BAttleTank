@@ -41,8 +41,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void AimAt(FVector HitLocation);
-
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	
@@ -52,11 +50,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeSeconds = 3;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetAimingComponentRef(UTankAimingComponent* AimingComonentToSet);
-
 
 private:
 	double LastFireTime = 0;
 	
+	UTankBarrel* Barrel = nullptr;
 };

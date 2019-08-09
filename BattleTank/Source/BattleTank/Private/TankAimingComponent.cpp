@@ -23,9 +23,10 @@ void UTankAimingComponent::GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, 
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	if (!Barrel) {
+	if (!ensure(Barrel)) {
 		UE_LOG(LogTemp, Warning, TEXT("Barrel Refrance Not Found in Aiming Component"));
 		return; 
 	}
@@ -49,6 +50,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDerection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrleTowards(AimDerection);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("suggestprojectile velocityaim direction not found"));
+	}
 	
 }
 
@@ -62,3 +67,7 @@ void UTankAimingComponent::MoveBarrleTowards(FVector AimDerection)
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
+void UTankAimingComponent::Check()
+{
+	UE_LOG(LogTemp, Warning, TEXT("I am loging becouse check method is called "));
+}

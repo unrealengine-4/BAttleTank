@@ -44,13 +44,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 		
+	void Check();
 
 
 public:	
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 	void MoveBarrleTowards(FVector AimDerection);
 		
-	UTankBarrel* Barrel;
-	UTankTurret* Turret;
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float LaunchSpeed = 4000;
 };

@@ -21,23 +21,16 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelRefrance(UTankBarrel* BarreToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretRefrance(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
 
-//	UFUNCTION(BlueprintReadOnly, Category = Movement)
-	//	void SetTankRefrance(ATank Tank);
 
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = "setup")
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	UTankMovementComponent* MovementComponent = nullptr;
 
 
@@ -50,25 +43,20 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed = 5000;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeSeconds = 3;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetAimingComponentRef(UTankAimingComponent* AimingComonentToSet);
 
-
-	
 
 private:
-	///Local barrel refrance for spawning a proejectile
-	UTankBarrel* Barrel = nullptr;
-
-
-	
 	double LastFireTime = 0;
 	
 };

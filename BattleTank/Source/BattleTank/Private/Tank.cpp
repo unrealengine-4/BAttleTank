@@ -11,26 +11,9 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//no need to protect pointers 
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
-void ATank::SetBarrelRefrance(UTankBarrel* BarreToSet)
-{
-	if (!BarreToSet) { return; }
-	TankAimingComponent->SetBarrelRefrance(BarreToSet);
-	Barrel = BarreToSet;
-}
-void ATank::SetTurretRefrance(UTankTurret* TurretToSet)
-{
-	if (!TurretToSet) { return; }
-	TankAimingComponent->SetTurretRefrance(TurretToSet);
-}
 
-//void ATank::SetTankRefrance(ATank Tank)
-//{
-//	
-//}
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -38,6 +21,10 @@ void ATank::BeginPlay()
 	
 }
 
+void ATank::SetAimingComponentRef(UTankAimingComponent* AimingComonentToSet)
+{
+	TankAimingComponent = AimingComonentToSet;
+}
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -48,25 +35,31 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) {
+		UE_LOG(LogTemp, Warning, TEXT("Tank Aiming Component refrnce not fount in tank "));
+		return; 
+	}
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 
 void ATank::Fire()
 {
-
+	if (!TankAimingComponent) { return; }
 	bool IsReloded = (FPlatformTime::Seconds()) - LastFireTime > ReloadTimeSeconds;
 
-	if (Barrel && IsReloded)
+	if (TankAimingComponent->Barrel && IsReloded)
 	{
 		//spawn a projectile in the socate location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
+		TankAimingComponent->Barrel->GetSocketLocation(FName("Projectile")),
+		TankAimingComponent->Barrel->GetSocketRotation(FName("Projectile"))
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds(); 
 	}
+
+	
 }
 

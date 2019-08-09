@@ -13,19 +13,22 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelRefrance(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
+	if (!BarrelToSet || !TurretToSet) { 
+		UE_LOG(LogTemp, Warning, TEXT("Get Barrel And Turret Refrance Not Found in Aiming Component"));
+		return; 
+	}
 	Barrel = BarrelToSet;
-}
-
-void UTankAimingComponent::SetTurretRefrance(UTankTurret* TurretToSet)
-{
 	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }
+	if (!Barrel) {
+		UE_LOG(LogTemp, Warning, TEXT("Barrel Refrance Not Found in Aiming Component"));
+		return; 
+	}
 	FVector OutLaunchVelocity;
 	auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 

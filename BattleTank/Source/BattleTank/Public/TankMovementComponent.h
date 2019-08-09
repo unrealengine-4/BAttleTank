@@ -17,16 +17,16 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 public:
 
 	//is used for moving tank 1,-1
-	UFUNCTION(BlueprintCallable, category = Movement)
+	UFUNCTION(BlueprintCallable, category = "Movement")
 	void IntendMoveForword(float Throw);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankTrack* LeftTraceToSet, UTankTrack* RightTrackToSet);
 
-	UFUNCTION(BlueprintCallable, category = Movement)
+	UFUNCTION(BlueprintCallable, category = "Movement")
 	void IntendTurnRight(float Throw);
 
-	UFUNCTION(BlueprintCallable, category = Movement)
+	UFUNCTION(BlueprintCallable, category = "Movement")
 	void IntendTurnLeft(float Throw);
 
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;

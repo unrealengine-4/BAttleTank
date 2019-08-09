@@ -16,3 +16,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 12 Firing 
 * 13 Added Quit Button
 * 14 Moving Player TANK and, AI TANK
+* 15 Refactoring code My way

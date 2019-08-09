@@ -8,20 +8,42 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
 
+//ENUM
+UENUM()
+enum class EFiringState : uint8
+{
+	Aiming,
+	Reloading,
+	Locked
+};
+
+
+//forwod declaration
+
+class ATank;
 class UTankBarrel;
 class UTankTurret;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
+		
+protected:
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankAimingComponent* TankAimingComponent;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::Aiming;
+
 
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelRefrance(UTankBarrel* BarrelToSet);
-
-	void SetTurretRefrance(UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+		
 
 
 public:	

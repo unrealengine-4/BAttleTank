@@ -14,12 +14,42 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+//Begin play
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+//Tick
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds()) - LastFireTime < ReloadTimeSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMovig())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMovig()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto ForwordBarrel = Barrel->GetForwardVector();
+
+	return !ForwordBarrel.Equals(AimDirection, 0.01);
+
+}
+
 void UTankAimingComponent::GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
-	if (!BarrelToSet || !TurretToSet) { 
-		UE_LOG(LogTemp, Warning, TEXT("Get Barrel And Turret Refrance Not Found in Aiming Component"));
-		return; 
-	}
+	if (!BarrelToSet || !TurretToSet) { return;	}
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
@@ -27,10 +57,7 @@ void UTankAimingComponent::GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, 
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	if (!ensure(Barrel)) {
-		UE_LOG(LogTemp, Warning, TEXT("Barrel Refrance Not Found in Aiming Component"));
-		return; 
-	}
+	if (!ensure(Barrel)) { return; } 
 	FVector OutLaunchVelocity;
 	auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
@@ -48,8 +75,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 	if(bHaveAimSolution)
 	{
-		auto AimDerection = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrleTowards(AimDerection);
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrleTowards(AimDirection);
 	}
 	else
 	{
@@ -58,20 +85,17 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	
 }
 
-void UTankAimingComponent::MoveBarrleTowards(FVector AimDerection)
+void UTankAimingComponent::MoveBarrleTowards(FVector AimDirection)
 {
 	//Workout current deffrance between current barrel rotaion, and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDerection.Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
-void UTankAimingComponent::Check()
-{
-	
-}
+
 
 void UTankAimingComponent::Fire()
 {
@@ -79,9 +103,9 @@ void UTankAimingComponent::Fire()
 		UE_LOG(LogTemp, Warning, TEXT("Barrel refrance notfound in fire method "));
 		return;
 	}
-	bool IsReloded = (FPlatformTime::Seconds()) - LastFireTime > ReloadTimeSeconds;
 
-	if (Barrel && IsReloded)
+
+	if (FiringState != EFiringState::Reloading)
 	{
 		//spawn a projectile in the socate location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(

@@ -43,6 +43,12 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	//Beigne Play
+	virtual void BeginPlay() override;
+
+	//Tick
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 	//Firing projectile 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
@@ -50,7 +56,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 		
-	void Check();
+	bool IsBarrelMovig();
 
 
 public:	
@@ -71,6 +77,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 		float ReloadTimeSeconds = 3;
+
+	FVector AimDirection;
 
 	double LastFireTime = 0;
 };

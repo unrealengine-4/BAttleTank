@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
@@ -21,6 +22,7 @@ enum class EFiringState : uint8
 //forwod declaration
 
 class ATank;
+class AProjectile;
 class UTankBarrel;
 class UTankTurret;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -41,6 +43,10 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	//Firing projectile 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void GetBarrelAndTurretRefrance(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 		
@@ -56,6 +62,15 @@ public:
 	UTankTurret* Turret = nullptr;
 
 private:
+
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		float LaunchSpeed = 4000;
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+		float LaunchSpeed = 5000;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+		float ReloadTimeSeconds = 3;
+
+	double LastFireTime = 0;
 };

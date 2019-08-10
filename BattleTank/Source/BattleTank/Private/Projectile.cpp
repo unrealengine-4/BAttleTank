@@ -28,7 +28,10 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-	
+	if (!ProjectileMovement) {
+		UE_LOG(LogTemp, Warning, TEXT("Projectilemovement component refrance not foumd Projectile CPP Line:: 32 "));
+		return;
+	}
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
 }

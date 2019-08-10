@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "Projectile.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
 // Sets default values for this component's properties
@@ -69,5 +70,26 @@ void UTankAimingComponent::MoveBarrleTowards(FVector AimDerection)
 
 void UTankAimingComponent::Check()
 {
-	UE_LOG(LogTemp, Warning, TEXT("I am loging becouse check method is called "));
+	
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!Barrel) { 
+		UE_LOG(LogTemp, Warning, TEXT("Barrel refrance notfound in fire method "));
+		return;
+	}
+	bool IsReloded = (FPlatformTime::Seconds()) - LastFireTime > ReloadTimeSeconds;
+
+	if (Barrel && IsReloded)
+	{
+		//spawn a projectile in the socate location of barrel
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }

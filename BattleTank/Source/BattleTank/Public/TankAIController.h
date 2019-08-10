@@ -13,7 +13,6 @@
 
 class ATankPlayerController;
 class UTankAimingComponent;
-class ATank;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -25,7 +24,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	ATank* GetTank;
 
 	//How far ai tank can com to player tank
 	UPROPERTY(EditAnywhere, Category = "setup")

@@ -14,7 +14,13 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
+private:
+	UTankTrack();
+
 public:
+	//tick
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 
 	UFUNCTION(BlueprintCallable, Category = "input")
 	void SetThrottel(float Throttel);

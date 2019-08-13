@@ -34,11 +34,11 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!ensure(TankAimingcomponent)) { return; }
 
 	FVector HitLocation; 
-	if (GetSightRayHitLocation(HitLocation))
+	bool HitResult = GetSightRayHitLocation(HitLocation);
+	if (HitResult)
 	{
 		TankAimingcomponent->AimAt(HitLocation);
 	}
-
 	//tell controled tank to ain at rthis point
 
 }
@@ -72,10 +72,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	))
 	{
 		HitLocation = HitResult.Location;
+		return true;
 	}
 	else
 	{
 		HitLocation = FVector(0.0);
 	}
-	return true;
+	return false;
 }

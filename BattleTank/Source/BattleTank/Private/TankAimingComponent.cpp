@@ -24,7 +24,11 @@ void UTankAimingComponent::BeginPlay()
 //Tick
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds()) - LastFireTime < ReloadTimeSeconds)
+	if (RoundLeft <= 0)
+	{
+	  FiringState = EFiringState::OutOfAimo;
+	}
+	else if ((FPlatformTime::Seconds()) - LastFireTime < ReloadTimeSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -38,9 +42,20 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundLeft;
+}
+
+
 bool UTankAimingComponent::IsBarrelMovig()
 {
-	if (!ensure(Barrel)) { return false; }
+	if (!Barrel) { return false; }
 	auto ForwordBarrel = Barrel->GetForwardVector();
 
 	return !ForwordBarrel.Equals(AimDirection, 0.01);
@@ -78,10 +93,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrleTowards(AimDirection);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("suggestprojectile velocityaim direction not found"));
-	}
 	
 }
 
@@ -92,9 +103,17 @@ void UTankAimingComponent::MoveBarrleTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Rotate(DeltaRotator.Yaw);
+	if (DeltaRotator.Yaw < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
 }
 
+//Firing state
 
 
 void UTankAimingComponent::Fire()
@@ -105,7 +124,7 @@ void UTankAimingComponent::Fire()
 	}
 
 
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked)
 	{
 		//spawn a projectile in the socate location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -115,5 +134,6 @@ void UTankAimingComponent::Fire()
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		RoundLeft--;
 	}
 }

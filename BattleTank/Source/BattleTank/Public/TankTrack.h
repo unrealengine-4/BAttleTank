@@ -18,15 +18,28 @@ private:
 	UTankTrack();
 
 public:
+	//Beginplay
+	virtual void BeginPlay() override;
+
 	//tick
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+	void ApplySidwayForce();
 
 
 	UFUNCTION(BlueprintCallable, Category = "input")
 	void SetThrottel(float Throttel);
 
+	void DriveTrack();
+
+	float CurrentThrottel = 0;
+
 	//Max force per trace, in newtons
 	UPROPERTY(EditDefaultsOnly, Category = "Force")
-		float TrackMaxDriingFource = 400000; //assunme 40 tun tank and, 1G accelration
+	float TrackMaxDriingFource = 400000; //assunme 40 tun tank and, 1G accelration
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
 
 };

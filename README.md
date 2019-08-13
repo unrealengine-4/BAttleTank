@@ -19,3 +19,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 15 Refactoring code My way
 * 16 Added Firing Sate
 * 17 Adding side way Force 
+* 18 create new Out of round state 

@@ -27,7 +27,7 @@ private:
 
 	//How far ai tank can com to player tank
 	UPROPERTY(EditAnywhere, Category = "setup")
-		float AcceptanceRedius = 3000;
+		float AcceptanceRedius = 8000;
 	
 public:
 	UTankAimingComponent* TankAimingComponet = nullptr;

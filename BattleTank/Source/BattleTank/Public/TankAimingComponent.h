@@ -13,8 +13,8 @@
 UENUM()
 enum class EFiringState : uint8
 {
-	Aiming,
 	Reloading,
+	Aiming,
 	Locked,
 	OutOfAimo
 };
@@ -75,6 +75,7 @@ public:
 	UTankTurret* Turret = nullptr;
 
 	int RoundLeft = 3;
+	FVector AimDirection;
 
 private:
 	
@@ -88,7 +89,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 		float ReloadTimeSeconds = 3;
 
-	FVector AimDirection;
+	
 
 	double LastFireTime = 0;
 

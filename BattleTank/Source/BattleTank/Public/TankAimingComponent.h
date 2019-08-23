@@ -74,7 +74,9 @@ public:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	int RoundLeft = 3;
+
 	FVector AimDirection;
 
 private:

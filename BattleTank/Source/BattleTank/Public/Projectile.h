@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/InstancedStaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Engine/World.h"
 #include "Projectile.generated.h"
 
@@ -29,5 +31,11 @@ public:
 
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UParticleSystemComponent* LaunchBlast = nullptr;
 
 };

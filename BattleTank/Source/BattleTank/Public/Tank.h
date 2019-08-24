@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 #include "Tank.generated.h"
 
 class UTankMovementComponent;
@@ -16,17 +18,22 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+
+
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	//Return current healt as a persentage of String health, between 0 and 1
+	UFUNCTION(BlueprintPure, Category = "Health")
+		float GetHealthPersent() const;
+
+private:
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	int32 StartingHealth = 100;
 
-protected:
+	UPROPERTY(VisibleAnywhere, Category = "Healt")
+	int32 CurrentHealth = StartingHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-	UTankMovementComponent* MovementComponent = nullptr;
-
-
-public:	
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 
 };

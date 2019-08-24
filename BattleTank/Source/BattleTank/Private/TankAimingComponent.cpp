@@ -45,7 +45,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 bool UTankAimingComponent::IsBarrelMovig()
 {
 	if (!ensure(Barrel)) { return false; }
-	UE_LOG(LogTemp, Warning, TEXT("Aim Direction :%s"), *(AimDirection.ToString())	);
 	auto BarrelForward = Barrel->GetForwardVector();
 	return !BarrelForward.Equals(AimDirection, 0.1);
 }

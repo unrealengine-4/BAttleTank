@@ -1,10 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
-#include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
+
 
 // Sets default values
 ATank::ATank()
@@ -14,10 +11,21 @@ ATank::ATank()
 }
 
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
+float ATank::TakeDamage(float Damage, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
-	Super::BeginPlay();
+	int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
+	int32 DamageToApply = FMath::Clamp<float>(DamagePoints, 0, CurrentHealth);
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Tank died"));
+	}
+	return DamageToApply;	
+}
+
+float ATank::GetHealthPersent() const
+{
+	return (float)CurrentHealth / (float)StartingHealth;
 }
 
 

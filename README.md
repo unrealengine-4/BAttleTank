@@ -26,3 +26,4 @@ An open world head-to-head tank fight with simple AI in unreal engine 4
 * 22 Explosion Force
 * 23 Distroing projectile
 * 24 Added Health Bar
+* 25 Death event added as well as First Person Camera

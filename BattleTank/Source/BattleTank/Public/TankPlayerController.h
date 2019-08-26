@@ -29,7 +29,11 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	
+	virtual void SetPawn(APawn* InPawn) override;
+	virtual void StartSpectatingOnly() override;
+
+	UFUNCTION()
+		void PossessedTankDeth();
 
 	///helps to move barrel towards crossair
 	void AimTowardsCrosshair();

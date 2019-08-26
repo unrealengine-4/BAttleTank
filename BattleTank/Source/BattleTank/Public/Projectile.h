@@ -60,5 +60,5 @@ private:
 		float DistroyDelay = 5.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float ProjectileDamage = 20.f;
+	float ProjectileDamage = 20.f;
 };
